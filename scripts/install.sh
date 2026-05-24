@@ -1,45 +1,45 @@
 #!/usr/bin/env bash
 #
-# install.sh -- 将智能体安装到本地 AI 工具中（한국어판 적용）
+# install.sh -- Install agents into local AI tools (Korean edition)
 #
-# 读取 integrations/ 中的转换文件，复制到各工具的配置目录。
-# 请先运行 scripts/convert.sh 生成集成文件。
+# Reads conversion files from integrations/ and copies to each tool config dir.
+# Run scripts/convert.sh first to generate integration files.
 #
-# 用法：
+# Usage:
 #   ./scripts/install.sh [--tool <name>] [--no-interactive] [--help]
 #
-# 支持的工具：
-#   claude-code  -- 复制到 ~/.claude/agents/
-#   copilot      -- 复制到 ~/.github/agents/
-#   antigravity  -- 复制到 ~/.gemini/antigravity/skills/
-#   gemini-cli   -- 安装到 ~/.gemini/extensions/agency-agents/
-#   opencode     -- 复制到 .opencode/agent/（当前目录）
-#   cursor       -- 复制到 .cursor/rules/（当前目录）
-#   trae         -- 复制到 .trae/rules/（当前目录）
-#   aider        -- 复制 CONVENTIONS.md（当前目录）
-#   windsurf     -- 复制 .windsurfrules（当前目录）
-#   openclaw     -- 复制到 ~/.openclaw/agency-agents/
-#   qwen         -- 复制 SubAgent 到 .qwen/agents/（项目级）
-#   codex        -- 复制到 .codex/agents/（项目级）
-#   deerflow     -- 复制到 DeerFlow custom skills 目录（Docker 项目级）
-#   workbuddy    -- 复制到 ~/.workbuddy/skills/（全局）
-#   hermes       -- 复制到 ~/.hermes/skills/（全局）
-#   kiro         -- 复制到 ~/.kiro/agents/（全局）
-#   qoder        -- 复制到 .qoder/agents/（项目级）
-#   all          -- 安装所有已检测到的工具（默认）
+# Supported tools:
+#   claude-code  -- Copy to ~/.claude/agents/
+#   copilot      -- Copy to ~/.github/agents/
+#   antigravity  -- Copy to ~/.gemini/antigravity/skills/
+#   gemini-cli   -- Install to ~/.gemini/extensions/agency-agents/
+#   opencode     -- Copy to .opencode/agent/(current dir)
+#   cursor       -- Copy to .cursor/rules/(current dir)
+#   trae         -- Copy to .trae/rules/(current dir)
+#   aider        -- Copy CONVENTIONS.md(current dir)
+#   windsurf     -- Copy .windsurfrules(current dir)
+#   openclaw     -- Copy to ~/.openclaw/agency-agents/
+#   qwen         -- Copy SubAgent to .qwen/agents/(project-scope)
+#   codex        -- Copy to .codex/agents/(project-scope)
+#   deerflow     -- Copy to DeerFlow custom skills dir(Docker project-scope)
+#   workbuddy    -- Copy to ~/.workbuddy/skills/(global)
+#   hermes       -- Copy to ~/.hermes/skills/(global)
+#   kiro         -- Copy to ~/.kiro/agents/(global)
+#   qoder        -- Copy to .qoder/agents/(project-scope)
+#   all          -- install all detected tools(default)
 #
-# Hermes 专属参数：
-#   --category <名称>  只安装某一分类下的 skills，可重复传入多次。
-#                      分类取 integrations/hermes/ 下的目录名，例如：
+# Hermes-specific options:
+#   --category <name>  Install only skills under a category; can be passed multiple times.
+#                      Category is the directory name under integrations/hermes/, e.g.:
 #                        --category marketing
 #                        --category engineering --category design
-#                      Discord 模式下 Hermes 会把每个 skill 注册为斜杠命令，
-#                      总 JSON 超过 8000 字符会被 Discord API 拒绝 (error 50035)，
-#                      若需要在 Discord 中使用建议按分类分批安装。
+#                      In Discord mode, Hermes registers each skill as a slash command;
+#                      total JSON over 8000 chars is rejected by Discord API (error 50035);
+#                      to use in Discord, install in batches by category.
 
 set -euo pipefail
 
-# --- 颜色 ---
+# --- Colors ---
 if [[ -t 1 ]]; then
   C_GREEN=$'\033[0;32m'; C_YELLOW=$'\033[1;33m'; C_RED=$'\033[0;31m'
   C_CYAN=$'\033[0;36m'; C_BOLD=$'\033[1m'; C_DIM=$'\033[2m'; C_RESET=$'\033[0m'
@@ -53,28 +53,28 @@ err()    { printf "${C_RED}[ERR]${C_RESET} %s\n" "$*" >&2; }
 header() { printf "\n${C_BOLD}%s${C_RESET}\n" "$*"; }
 dim()    { printf "${C_DIM}%s${C_RESET}\n" "$*"; }
 
-# --- 路径 ---
+# --- Paths ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 INTEGRATIONS="$REPO_ROOT/integrations"
 
 ALL_TOOLS=(claude-code copilot antigravity gemini-cli opencode openclaw cursor trae aider windsurf qwen codex deerflow workbuddy hermes kiro qoder)
 
-# --- 用法 ---
+# --- Usage ---
 usage() {
   sed -n '3,26p' "$0" | sed 's/^# \{0,1\}//'
   exit 0
 }
 
-# --- 预检 ---
+# --- Pre-check ---
 check_integrations() {
   if [[ ! -d "$INTEGRATIONS" ]]; then
-    err "integrations/ 不存在。请先运行 ./scripts/convert.sh"
+    err "integrations/ does not exist. Run ./scripts/convert.sh"
     exit 1
   fi
 }
 
-# --- 工具检测 ---
+# --- Tool detection ---
 detect_claude_code() { [[ -d "${HOME}/.claude" ]]; }
 detect_copilot()      { command -v code >/dev/null 2>&1 || [[ -d "${HOME}/.github" ]] || [[ -d "${HOME}/.copilot" ]]; }
 detect_antigravity()  { [[ -d "${HOME}/.gemini/antigravity/skills" ]]; }
@@ -121,7 +121,7 @@ tool_label() {
     claude-code) printf "%-14s  %s" "Claude Code"  "(~/.claude/agents)"     ;;
     copilot)     printf "%-14s  %s" "Copilot"      "(~/.github + ~/.copilot)" ;;
     antigravity) printf "%-14s  %s" "Antigravity"  "(~/.gemini/antigravity)" ;;
-    gemini-cli)  printf "%-14s  %s" "Gemini CLI"   "(gemini 扩展)"          ;;
+    gemini-cli)  printf "%-14s  %s" "Gemini CLI"   "(gemini extension)"          ;;
     opencode)    printf "%-14s  %s" "OpenCode"     "(opencode.ai)"          ;;
     openclaw)    printf "%-14s  %s" "OpenClaw"     "(~/.openclaw)"          ;;
     cursor)      printf "%-14s  %s" "Cursor"       "(.cursor/rules)"        ;;
@@ -138,7 +138,7 @@ tool_label() {
   esac
 }
 
-# --- 安装器 ---
+# --- Installer ---
 
 install_claude_code() {
   local dest="${HOME}/.claude/agents"
@@ -155,7 +155,7 @@ install_claude_code() {
       (( count++ )) || true
     done < <(find "$REPO_ROOT/$dir" -name "*.md" -type f -print0)
   done
-  ok "Claude Code: $count 个智能体 -> $dest"
+  ok "Claude Code: $count agents -> $dest"
 }
 
 install_copilot() {
@@ -175,14 +175,14 @@ install_copilot() {
       (( count++ )) || true
     done < <(find "$REPO_ROOT/$dir" -name "*.md" -type f -print0)
   done
-  ok "Copilot: $count 个智能体 -> $dest1 + $dest2"
+  ok "Copilot: $count agents -> $dest1 + $dest2"
 }
 
 install_antigravity() {
   local src="$INTEGRATIONS/antigravity"
   local dest="${HOME}/.gemini/antigravity/skills"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/antigravity 不存在。请先运行 convert.sh"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/antigravity does not exist. Run convert.sh"; return 1; }
   mkdir -p "$dest"
   local d
   while IFS= read -r -d '' d; do
@@ -191,16 +191,16 @@ install_antigravity() {
     cp "$d/SKILL.md" "$dest/$name/SKILL.md"
     (( count++ )) || true
   done < <(find "$src" -mindepth 1 -maxdepth 1 -type d -print0)
-  ok "Antigravity: $count 个 skills -> $dest"
+  ok "Antigravity: $count skills -> $dest"
 }
 
 install_gemini_cli() {
   local src="$INTEGRATIONS/gemini-cli"
   local dest="${HOME}/.gemini/extensions/agency-agents"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/gemini-cli 不存在。请先运行 convert.sh --tool gemini-cli"; return 1; }
-  [[ -f "$src/gemini-extension.json" ]] || { err "gemini-extension.json 缺失。请先运行 convert.sh --tool gemini-cli"; return 1; }
-  [[ -d "$src/skills" ]] || { err "skills/ 目录缺失。请先运行 convert.sh --tool gemini-cli"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/gemini-cli does not exist. Run convert.sh --tool gemini-cli"; return 1; }
+  [[ -f "$src/gemini-extension.json" ]] || { err "gemini-extension.json missing. Run convert.sh --tool gemini-cli"; return 1; }
+  [[ -d "$src/skills" ]] || { err "skills/ dirmissing. Run convert.sh --tool gemini-cli"; return 1; }
   mkdir -p "$dest/skills"
   cp "$src/gemini-extension.json" "$dest/gemini-extension.json"
   local d
@@ -210,28 +210,28 @@ install_gemini_cli() {
     cp "$d/SKILL.md" "$dest/skills/$name/SKILL.md"
     (( count++ )) || true
   done < <(find "$src/skills" -mindepth 1 -maxdepth 1 -type d -print0)
-  ok "Gemini CLI: $count 个 skills -> $dest"
+  ok "Gemini CLI: $count skills -> $dest"
 }
 
 install_opencode() {
   local src="$INTEGRATIONS/opencode/agents"
   local dest="${PWD}/.opencode/agents"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/opencode 不存在。请先运行 convert.sh"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/opencode does not exist. Run convert.sh"; return 1; }
   mkdir -p "$dest"
   local f
   while IFS= read -r -d '' f; do
     cp "$f" "$dest/"; (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.md" -print0)
-  ok "OpenCode: $count 个智能体 -> $dest"
-  warn "OpenCode: 项目级安装。请在项目根目录运行。"
+  ok "OpenCode: $count agents -> $dest"
+  warn "OpenCode: project-scopeinstall. Run from project root."
 }
 
 install_openclaw() {
   local src="$INTEGRATIONS/openclaw"
   local dest="${HOME}/.openclaw/agency-agents"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/openclaw 不存在。请先运行 convert.sh"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/openclaw does not exist. Run convert.sh"; return 1; }
   mkdir -p "$dest"
   local d
   while IFS= read -r -d '' d; do
@@ -241,11 +241,11 @@ install_openclaw() {
     cp "$d/AGENTS.md" "$dest/$name/AGENTS.md"
     cp "$d/IDENTITY.md" "$dest/$name/IDENTITY.md"
     if command -v openclaw >/dev/null 2>&1; then
-      # 跳过已注册的智能体，避免重复 add 导致阻塞（#34）
+      # skip already-registered agents to avoid blocking on duplicate add(#34)
       if openclaw agents list 2>/dev/null | grep -q "$name"; then
-        dim "  跳过已注册: $name"
+        dim "  skip already-registered: $name"
       else
-        # 超时 30s 防止命令挂起（macOS 兼容写法）
+        # 30s timeout to prevent hang(macOS-compatible form)
         if command -v timeout >/dev/null 2>&1; then
           timeout 30 openclaw agents add "$name" --workspace "$dest/$name" --non-interactive 2>/dev/null || true
         else
@@ -258,9 +258,9 @@ install_openclaw() {
     fi
     (( count++ )) || true
   done < <(find "$src" -mindepth 1 -maxdepth 1 -type d -print0)
-  ok "OpenClaw: $count 个工作空间 -> $dest"
+  ok "OpenClaw: $count workspaces -> $dest"
   if command -v openclaw >/dev/null 2>&1; then
-    warn "OpenClaw: 运行 'openclaw gateway restart' 激活新智能体"
+    warn "OpenClaw: run "openclaw gateway restart" to activate new agents"
   fi
 }
 
@@ -268,54 +268,54 @@ install_cursor() {
   local src="$INTEGRATIONS/cursor/rules"
   local dest="${PWD}/.cursor/rules"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/cursor 不存在。请先运行 convert.sh"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/cursor does not exist. Run convert.sh"; return 1; }
   mkdir -p "$dest"
   local f
   while IFS= read -r -d '' f; do
     cp "$f" "$dest/"; (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.mdc" -print0)
-  ok "Cursor: $count 个规则 -> $dest"
-  warn "Cursor: 项目级安装。请在项目根目录运行。"
+  ok "Cursor: $count rules -> $dest"
+  warn "Cursor: project-scopeinstall. Run from project root."
 }
 
 install_trae() {
   local src="$INTEGRATIONS/trae/rules"
   local dest="${PWD}/.trae/rules"
   local count=0
-  [[ -d "$src" ]] || { err "integrations/trae 不存在。请先运行 convert.sh --tool trae"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/trae does not exist. Run convert.sh --tool trae"; return 1; }
   mkdir -p "$dest"
   local f
   while IFS= read -r -d '' f; do
     cp "$f" "$dest/"; (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.md" -print0)
-  ok "Trae: $count 个规则 -> $dest"
-  warn "Trae: 项目级安装。请在项目根目录运行。"
+  ok "Trae: $count rules -> $dest"
+  warn "Trae: project-scopeinstall. Run from project root."
 }
 
 install_aider() {
   local src="$INTEGRATIONS/aider/CONVENTIONS.md"
   local dest="${PWD}/CONVENTIONS.md"
-  [[ -f "$src" ]] || { err "integrations/aider/CONVENTIONS.md 不存在。请先运行 convert.sh"; return 1; }
+  [[ -f "$src" ]] || { err "integrations/aider/CONVENTIONS.md does not exist. Run convert.sh"; return 1; }
   if [[ -f "$dest" ]]; then
-    warn "Aider: CONVENTIONS.md 已存在 ($dest)，删除后重试。"
+    warn "Aider: CONVENTIONS.md already exists ($dest)，delete and retry。"
     return 0
   fi
   cp "$src" "$dest"
-  ok "Aider: 已安装 -> $dest"
-  warn "Aider: 项目级安装。请在项目根目录运行。"
+  ok "Aider: installed -> $dest"
+  warn "Aider: project-scopeinstall. Run from project root."
 }
 
 install_windsurf() {
   local src="$INTEGRATIONS/windsurf/.windsurfrules"
   local dest="${PWD}/.windsurfrules"
-  [[ -f "$src" ]] || { err "integrations/windsurf/.windsurfrules 不存在。请先运行 convert.sh"; return 1; }
+  [[ -f "$src" ]] || { err "integrations/windsurf/.windsurfrules does not exist. Run convert.sh"; return 1; }
   if [[ -f "$dest" ]]; then
-    warn "Windsurf: .windsurfrules 已存在 ($dest)，删除后重试。"
+    warn "Windsurf: .windsurfrules already exists ($dest)，delete and retry。"
     return 0
   fi
   cp "$src" "$dest"
-  ok "Windsurf: 已安装 -> $dest"
-  warn "Windsurf: 项目级安装。请在项目根目录运行。"
+  ok "Windsurf: installed -> $dest"
+  warn "Windsurf: project-scopeinstall. Run from project root."
 }
 
 install_qwen() {
@@ -323,7 +323,7 @@ install_qwen() {
   local dest="${PWD}/.qwen/agents"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/qwen 不存在。请先运行 convert.sh"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/qwen does not exist. Run convert.sh"; return 1; }
 
   mkdir -p "$dest"
 
@@ -333,9 +333,9 @@ install_qwen() {
     (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.md" -print0)
 
-  ok "Qwen Code: $count 个智能体 -> $dest"
-  warn "Qwen Code: 项目级安装。请在项目根目录运行。"
-  warn "提示: 在 Qwen Code 中运行 '/agents manage' 刷新，或重启会话"
+  ok "Qwen Code: $count agents -> $dest"
+  warn "Qwen Code: project-scopeinstall. Run from project root."
+  warn "Tip: Run in Qwen Code '/agents manage' to refresh, or restart session"
 }
 
 install_codex() {
@@ -343,7 +343,7 @@ install_codex() {
   local dest="${PWD}/.codex/agents"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/codex 不存在。请先运行 convert.sh --tool codex"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/codex does not exist. Run convert.sh --tool codex"; return 1; }
 
   mkdir -p "$dest"
 
@@ -353,8 +353,8 @@ install_codex() {
     (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.toml" -print0)
 
-  ok "Codex CLI: $count 个智能体 -> $dest"
-  warn "Codex CLI: 项目级安装。请在项目根目录运行。"
+  ok "Codex CLI: $count agents -> $dest"
+  warn "Codex CLI: project-scopeinstall. Run from project root."
 }
 
 install_deerflow() {
@@ -362,7 +362,7 @@ install_deerflow() {
   local dest="${DEERFLOW_SKILLS_DIR:-./skills/custom}"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/deerflow 不存在。请先运行 convert.sh --tool deerflow"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/deerflow does not exist. Run convert.sh --tool deerflow"; return 1; }
 
   mkdir -p "$dest"
 
@@ -375,8 +375,8 @@ install_deerflow() {
     (( count++ )) || true
   done < <(find "$src" -mindepth 1 -maxdepth 1 -type d -print0)
 
-  ok "DeerFlow: $count 个 skills -> $dest"
-  warn "DeerFlow: 默认安装到 ./skills/custom/。设置 DEERFLOW_SKILLS_DIR 可自定义路径。"
+  ok "DeerFlow: $count skills -> $dest"
+  warn "DeerFlow: installs to ./skills/custom/。Set DEERFLOW_SKILLS_DIR to customize path。"
 }
 
 install_workbuddy() {
@@ -384,7 +384,7 @@ install_workbuddy() {
   local dest="${HOME}/.workbuddy/skills"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/workbuddy 不存在。请先运行 convert.sh --tool workbuddy"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/workbuddy does not exist. Run convert.sh --tool workbuddy"; return 1; }
 
   mkdir -p "$dest"
 
@@ -397,7 +397,7 @@ install_workbuddy() {
     (( count++ )) || true
   done < <(find "$src" -mindepth 1 -maxdepth 1 -type d -print0)
 
-  ok "WorkBuddy: $count 个 skills -> $dest"
+  ok "WorkBuddy: $count skills -> $dest"
 }
 
 install_hermes() {
@@ -405,21 +405,21 @@ install_hermes() {
   local dest="${HOME}/.hermes/skills"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/hermes 不存在。请先运行 convert.sh --tool hermes"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/hermes does not exist. Run convert.sh --tool hermes"; return 1; }
 
-  # 若指定了 --category，只安装命中的分类；否则安装全部
+  # If --category，install only matched categories；otherwise install all
   local filter_note=""
   if [[ ${#HERMES_CATEGORIES[@]} -gt 0 ]]; then
     local c
     for c in "${HERMES_CATEGORIES[@]}"; do
-      [[ -d "$src/$c" ]] || { err "hermes 分类不存在: ${c}（可选: $(ls "$src" | tr '\n' ' ')）"; return 1; }
+      [[ -d "$src/$c" ]] || { err "hermes categorydoes not exist: ${c}(optional: $(ls "$src" | tr '\n' ' '))"; return 1; }
     done
-    filter_note=" [分类: ${HERMES_CATEGORIES[*]}]"
+    filter_note=" [category: ${HERMES_CATEGORIES[*]}]"
   fi
 
   mkdir -p "$dest"
 
-  # Hermes 保留两级目录结构：category/skill-name/SKILL.md
+  # Hermes preserves two-level dir structure：category/skill-name/SKILL.md
   local catdir
   while IFS= read -r -d '' catdir; do
     local catname; catname="$(basename "$catdir")"
@@ -438,10 +438,10 @@ install_hermes() {
     done < <(find "$catdir" -mindepth 1 -maxdepth 1 -type d -print0)
   done < <(find "$src" -mindepth 1 -maxdepth 1 -type d -print0)
 
-  ok "Hermes Agent: $count 个 skills -> $dest$filter_note"
+  ok "Hermes Agent: $count skills -> $dest$filter_note"
   if [[ ${#HERMES_CATEGORIES[@]} -eq 0 && $count -gt 80 ]]; then
-    warn "Hermes Discord 模式对斜杠命令总长有 8000 字符上限（error 50035）。"
-    warn "若要在 Discord 中使用，建议用 --category <名称> 按分类分批安装。"
+    warn "Hermes Discord mode caps total slash commands at 8000 chars(error 50035)。"
+    warn "To use in Discord, prefer --category <name> to install in batches by category。"
   fi
 }
 
@@ -450,26 +450,26 @@ install_kiro() {
   local dest="${HOME}/.kiro/agents"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/kiro 不存在。请先运行 convert.sh --tool kiro"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/kiro does not exist. Run convert.sh --tool kiro"; return 1; }
 
   mkdir -p "$dest/prompts"
 
-  # 复制 JSON 配置文件
+  # Copy JSON config file
   local f
   while IFS= read -r -d '' f; do
     cp "$f" "$dest/"
     (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.json" -print0)
 
-  # 复制 prompt 文件
+  # Copy prompt file
   if [[ -d "$src/prompts" ]]; then
     while IFS= read -r -d '' f; do
       cp "$f" "$dest/prompts/"
     done < <(find "$src/prompts" -maxdepth 1 -name "*.md" -print0)
   fi
 
-  ok "Kiro: $count 个智能体 -> $dest"
-  warn "提示: 在 Kiro 中使用 '/agent swap' 切换智能体"
+  ok "Kiro: $count agents -> $dest"
+  warn "Tip: Use in Kiro '/agent swap' to switch agents"
 }
 
 install_qoder() {
@@ -477,7 +477,7 @@ install_qoder() {
   local dest="${PWD}/.qoder/agents"
   local count=0
 
-  [[ -d "$src" ]] || { err "integrations/qoder 不存在。请先运行 convert.sh --tool qoder"; return 1; }
+  [[ -d "$src" ]] || { err "integrations/qoder does not exist. Run convert.sh --tool qoder"; return 1; }
 
   mkdir -p "$dest"
 
@@ -487,8 +487,8 @@ install_qoder() {
     (( count++ )) || true
   done < <(find "$src" -maxdepth 1 -name "*.md" -print0)
 
-  ok "Qoder: $count 个智能体 -> $dest"
-  warn "Qoder: 项目级安装。请在项目根目录运行。"
+  ok "Qoder: $count agents -> $dest"
+  warn "Qoder: project-scopeinstall. Run from project root."
 }
 
 install_tool() {
@@ -513,23 +513,23 @@ install_tool() {
   esac
 }
 
-# --- 入口 ---
+# --- Entry ---
 main() {
   local tool="all"
   HERMES_CATEGORIES=()
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --tool)            tool="${2:?'--tool 需要一个值'}"; shift 2 ;;
-      --category)        HERMES_CATEGORIES+=("${2:?'--category 需要一个值'}"); shift 2 ;;
+      --tool)            tool="${2:?'--tool requires a value'}"; shift 2 ;;
+      --category)        HERMES_CATEGORIES+=("${2:?'--category requires a value'}"); shift 2 ;;
       --no-interactive)  shift ;;
       --help|-h)         usage ;;
-      *)                 err "未知选项: $1"; usage ;;
+      *)                 err "Unknown option: $1"; usage ;;
     esac
   done
 
   if [[ ${#HERMES_CATEGORIES[@]} -gt 0 && "$tool" != "hermes" ]]; then
-    warn "--category 仅对 --tool hermes 生效，已忽略。"
+    warn "--category only applies to --tool hermes; ignored."
     HERMES_CATEGORIES=()
   fi
 
@@ -539,7 +539,7 @@ main() {
     local valid=false t
     for t in "${ALL_TOOLS[@]}"; do [[ "$t" == "$tool" ]] && valid=true && break; done
     if ! $valid; then
-      err "未知工具 '$tool'。可选: ${ALL_TOOLS[*]}"
+      err "Unknown tool '$tool'。optional: ${ALL_TOOLS[*]}"
       exit 1
     fi
   fi
@@ -549,31 +549,31 @@ main() {
   if [[ "$tool" != "all" ]]; then
     SELECTED_TOOLS=("$tool")
   else
-    header "AI 智能体专家团队 -- 扫描已安装的工具..."
+    header "AI Agent Team -- scanning installed tools..."
     printf "\n"
     local t
     for t in "${ALL_TOOLS[@]}"; do
       if is_detected "$t" 2>/dev/null; then
         SELECTED_TOOLS+=("$t")
-        printf "  ${C_GREEN}[*]${C_RESET}  %s  ${C_DIM}已检测到${C_RESET}\n" "$(tool_label "$t")"
+        printf "  ${C_GREEN}[*]${C_RESET}  %s  ${C_DIM}detected${C_RESET}\n" "$(tool_label "$t")"
       else
-        printf "  ${C_DIM}[ ]  %s  未找到${C_RESET}\n" "$(tool_label "$t")"
+        printf "  ${C_DIM}[ ]  %s  not found${C_RESET}\n" "$(tool_label "$t")"
       fi
     done
   fi
 
   if [[ ${#SELECTED_TOOLS[@]} -eq 0 ]]; then
-    warn "未选择或检测到任何工具。"
+    warn "No tool selected and none detected。"
     printf "\n"
-    dim "  提示: 使用 --tool <名称> 强制安装指定工具。"
-    dim "  可选: ${ALL_TOOLS[*]}"
+    dim "  Tip: Use --tool <name> to force-install a specific tool。"
+    dim "  optional: ${ALL_TOOLS[*]}"
     exit 0
   fi
 
   printf "\n"
-  header "AI 智能体专家团队 -- 安装智能体"
-  printf "  仓库:     %s\n" "$REPO_ROOT"
-  printf "  安装到:   %s\n" "${SELECTED_TOOLS[*]}"
+  header "AI Agent Team -- installing agents"
+  printf "  Repo:     %s\n" "$REPO_ROOT"
+  printf "  Install to:   %s\n" "${SELECTED_TOOLS[*]}"
   printf "\n"
 
   local installed=0 t
@@ -583,9 +583,9 @@ main() {
   done
 
   printf "\n"
-  ok "完成！已安装 $installed 个工具。"
+  ok "done! installed $installed tools。"
   printf "\n"
-  dim "  运行 ./scripts/convert.sh 重新生成集成文件。"
+  dim "  Run ./scripts/convert.sh to regenerate integration files。"
   printf "\n"
 }
 

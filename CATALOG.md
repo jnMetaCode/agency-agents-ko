@@ -124,7 +124,7 @@
 | 프라이빗 도메인 운영 전문가 | `marketing/marketing-private-domain-operator.md` |
 | Reddit 커뮤니티 빌더 | `marketing/marketing-reddit-community-builder.md` |
 | SEO 전문가 | `marketing/marketing-seo-specialist.md` |
-|  | `marketing/marketing-short-video-editing-coach.md` |
+| 숏폼 영상 편집 코치 | `marketing/marketing-short-video-editing-coach.md` |
 | 소셜 미디어 전략가 | `marketing/marketing-social-media-strategist.md` |
 | TikTok 전략가 | `marketing/marketing-tiktok-strategist.md` |
 | 트위터 인게이저 | `marketing/marketing-twitter-engager.md` |

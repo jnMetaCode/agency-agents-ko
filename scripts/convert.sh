@@ -1,37 +1,37 @@
 #!/usr/bin/env bash
 #
-# convert.sh — 将智能体 .md 文件转换为各工具专用格式（한국어판 적용）
+# convert.sh — Convert agent .md files into tool-specific formats (Korean edition)
 #
-# 读取所有智能体目录中的 .md 文件，输出到 integrations/<tool>/。
-# 添加或修改智能体后运行此脚本重新生成集成文件。
+# Reads .md files from all agent dirs and outputs to integrations/<tool>/.
+# Run this script after adding or modifying agents to regenerate integration files.
 #
-# 用法：
+# Usage:
 #   ./scripts/convert.sh [--tool <name>] [--out <dir>] [--help]
 #
-# 支持的工具：
-#   antigravity  — Antigravity skill 文件 (~/.gemini/antigravity/skills/)
-#   gemini-cli   — Gemini CLI 扩展 (skills/ + gemini-extension.json)
-#   opencode     — OpenCode agent 文件 (.opencode/agent/*.md)
-#   cursor       — Cursor rule 文件 (.cursor/rules/*.mdc)
-#   trae         — Trae rule 文件 (.trae/rules/*.md)
-#   aider        — 单文件 CONVENTIONS.md for Aider
-#   windsurf     — 单文件 .windsurfrules for Windsurf
-#   openclaw     — OpenClaw SOUL.md 文件 (openclaw_workspace/<agent>/SOUL.md)
-#   qwen         — Qwen Code SubAgent 文件 (~/.qwen/agents/*.md)
-#   codex        — OpenAI Codex CLI agent 文件 (.codex/agents/*.toml)
-#   deerflow     — DeerFlow 2.0 custom skill 文件 (skills/custom/<slug>/SKILL.md)
-#   workbuddy    — WorkBuddy skill 文件 (~/.workbuddy/skills/<slug>/SKILL.md)
-#   hermes       — Hermes Agent skill 文件 (~/.hermes/skills/<category>/<slug>/SKILL.md)
-#   kiro         — Kiro agent JSON 文件 (.kiro/agents/*.json + prompts/*.md)
-#   qoder        — Qoder 自定义智能体文件 (.qoder/agents/*.md)
-#   all          — 所有工具（默认）
+# Supported tools:
+#   antigravity  — Antigravity skill file (~/.gemini/antigravity/skills/)
+#   gemini-cli   — Gemini CLI extension (skills/ + gemini-extension.json)
+#   opencode     — OpenCode agent file (.opencode/agent/*.md)
+#   cursor       — Cursor rule file (.cursor/rules/*.mdc)
+#   trae         — Trae rule file (.trae/rules/*.md)
+#   aider        — single CONVENTIONS.md file for Aider
+#   windsurf     — single .windsurfrules file for Windsurf
+#   openclaw     — OpenClaw SOUL.md file (openclaw_workspace/<agent>/SOUL.md)
+#   qwen         — Qwen Code SubAgent file (~/.qwen/agents/*.md)
+#   codex        — OpenAI Codex CLI agent file (.codex/agents/*.toml)
+#   deerflow     — DeerFlow 2.0 custom skill file (skills/custom/<slug>/SKILL.md)
+#   workbuddy    — WorkBuddy skill file (~/.workbuddy/skills/<slug>/SKILL.md)
+#   hermes       — Hermes Agent skill file (~/.hermes/skills/<category>/<slug>/SKILL.md)
+#   kiro         — Kiro agent JSON file (.kiro/agents/*.json + prompts/*.md)
+#   qoder        — Qoder 自定义agentfile (.qoder/agents/*.md)
+#   all          — 所有工具(default)
 #
-# 输出到仓库根目录下的 integrations/<tool>/。
-# 此脚本不会修改用户配置目录 — 参见 install.sh。
+# output到仓库根dir下的 integrations/<tool>/。
+# 此脚本不会修改用户配置dir — 参见 install.sh。
 
 set -euo pipefail
 
-# --- 颜色辅助 ---
+# --- Colors辅助 ---
 if [[ -t 1 ]]; then
   GREEN=$'\033[0;32m'; YELLOW=$'\033[1;33m'; RED=$'\033[0;31m'; BOLD=$'\033[1m'; RESET=$'\033[0m'
 else
@@ -43,7 +43,7 @@ warn()    { printf "${YELLOW}[!!]${RESET}  %s\n" "$*"; }
 error()   { printf "${RED}[ERR]${RESET} %s\n" "$*" >&2; }
 header()  { echo -e "\n${BOLD}$*${RESET}"; }
 
-# --- 路径 ---
+# --- Paths ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 OUT_DIR="$REPO_ROOT/integrations"
@@ -54,7 +54,7 @@ AGENT_DIRS=(
   project-management supply-chain testing support spatial-computing specialized
 )
 
-# --- 用法 ---
+# --- Usage ---
 usage() {
   sed -n '3,27p' "$0" | sed 's/^# \{0,1\}//'
   exit 0
@@ -62,7 +62,7 @@ usage() {
 
 # --- Frontmatter 辅助函数 ---
 
-# 从 YAML frontmatter 中提取单个字段值
+# 从 YAML frontmatter 中提取单x 字段值
 get_field() {
   local field="$1" file="$2"
   awk -v f="$field" '
@@ -76,13 +76,13 @@ get_body() {
   awk 'BEGIN{fm=0} /^---$/{fm++; next} fm>=2{print}' "$1"
 }
 
-# 从文件名生成 slug（适配中文：直接用文件名而非中文 name 字段）
+# Generate slug from filename (use filename instead of name field)
 # "marketing-douyin-strategist.md" → "marketing-douyin-strategist"
 slugify_from_file() {
   basename "$1" .md
 }
 
-# --- 颜色映射 ---
+# --- Colors映射 ---
 resolve_opencode_color() {
   local c="$1"
   case "$c" in
@@ -242,7 +242,7 @@ convert_openclaw() {
   outdir="$OUT_DIR/openclaw/$slug"
   mkdir -p "$outdir"
 
-  # 按 ## 标题关键词拆分为 SOUL.md（人设）和 AGENTS.md（业务）
+  # 按 ## 标题关键词拆分= SOUL.md(人设)和 AGENTS.md(业务)
   # SOUL 关键词：身份/记忆/identity/communication/style/规则/rules
   # AGENTS 关键词：使命/mission/交付/workflow 等其余内容
 
@@ -266,12 +266,18 @@ convert_openclaw() {
       if [[ "$header_lower" =~ identity ]] ||
          [[ "$header_lower" =~ 身份 ]] ||
          [[ "$header_lower" =~ 记忆 ]] ||
+         [[ "$header_lower" =~ 정체성 ]] ||
+         [[ "$header_lower" =~ 기억 ]] ||
          [[ "$header_lower" =~ communication ]] ||
          [[ "$header_lower" =~ 沟通 ]] ||
+         [[ "$header_lower" =~ 커뮤니케이션 ]] ||
          [[ "$header_lower" =~ style ]] ||
          [[ "$header_lower" =~ 风格 ]] ||
+         [[ "$header_lower" =~ 스타일 ]] ||
          [[ "$header_lower" =~ critical.rule ]] ||
          [[ "$header_lower" =~ 关键规则 ]] ||
+         [[ "$header_lower" =~ 핵심.규칙 ]] ||
+         [[ "$header_lower" =~ 반드시.지켜야 ]] ||
          [[ "$header_lower" =~ rules.you.must.follow ]]; then
         current_target="soul"
       else
@@ -301,9 +307,9 @@ HEREDOC
 
 ## Session 启动流程
 
-每次会话开始时，按以下顺序自动执行：
+每次会话start时，按以下顺序自动执行：
 
-1. 读取 \`SOUL.md\` - 加载性格和行为风格
+1. 读取 \`SOUL.md\` - 加载性格和行=风格
 2. 读取 \`USER.md\` - 了解用户背景和偏好
 3. 读取 \`memory/YYYY-MM-DD.md\` - 加载今天和昨天的日志
 4. 如果是主会话：额外读取 \`MEMORY.md\` - 加载核心记忆索引
@@ -312,9 +318,9 @@ HEREDOC
 
 ## 记忆管理规范
 
-你每次启动都是全新状态，这些文件是你的记忆延续。
+你每次启动都是全新状态，这些file是你的记忆延续。
 
-| 层级 | 文件路径 | 存储内容 |
+| 层级 | filePaths | 存储内容 |
 |------|---------|---------|
 | 索引层 | \`MEMORY.md\` | 核心信息和记忆索引，保持精简 |
 | 日志层 | \`memory/YYYY-MM-DD.md\` | 每日详细记录 |
@@ -343,8 +349,8 @@ convert_qwen() {
   outfile="$OUT_DIR/qwen/agents/${slug}.md"
   mkdir -p "$(dirname "$outfile")"
 
-  # Qwen Code SubAgent 格式：带 YAML frontmatter 的 .md 文件
-  # name 和 description 必填；tools 可选（仅在源文件中存在时添加）
+  # Qwen Code SubAgent 格式：带 YAML frontmatter 的 .md file
+  # name 和 description 必填；tools optional(仅在源file中存在时添加)
   if [[ -n "$tools" ]]; then
     cat > "$outfile" <<HEREDOC
 ---
@@ -377,9 +383,9 @@ convert_codex() {
   outfile="$OUT_DIR/codex/agents/${slug}.toml"
   mkdir -p "$OUT_DIR/codex/agents"
 
-  # Codex CLI agent 格式：TOML 文件
-  # TOML 多行基本字符串（"""..."""）中反斜杠必须转义为 \\
-  # 同时转义三引号（极罕见但防御性处理）
+  # Codex CLI agent 格式：TOML file
+  # TOML 多行基本字符串("""...""")中反斜杠必须转义= \\
+  # 同时转义三引号(极罕见但防御性处理)
   local escaped_body
   escaped_body="$(echo "$body" | sed -e 's/\\/\\\\/g' -e 's/"""/\\"""/g')"
 
@@ -417,10 +423,10 @@ ${body}
 HEREDOC
 }
 
-# 根据目录名获取 Qoder 工具集合
+# 根据dirname获取 Qoder 工具集合
 get_qoder_tools() {
   local dirpath="$1"
-  # 提取顶级目录名（处理子目录情况，如 game-development/unity）
+  # 提取顶级dirname(处理子dir情况，如 game-development/unity)
   local topdir
   topdir="$(echo "$dirpath" | sed "s|^$REPO_ROOT/||" | cut -d'/' -f1)"
 
@@ -442,7 +448,7 @@ get_qoder_tools() {
     supply-chain)       echo "Read, Write, WebFetch" ;;
     support)            echo "Read, Write, WebFetch, WebSearch" ;;
     testing)            echo "Read, Bash, Grep, Edit" ;;
-    *)                  echo "Read, Write" ;;  # 默认工具集
+    *)                  echo "Read, Write" ;;  # default工具集
   esac
 }
 
@@ -458,8 +464,8 @@ convert_qoder() {
   outfile="$OUT_DIR/qoder/agents/${slug}.md"
   mkdir -p "$OUT_DIR/qoder/agents"
 
-  # Qoder 自定义智能体格式：带 YAML frontmatter 的 .md 文件
-  # name 使用文件名（已是 kebab-case），tools 根据目录自动推荐
+  # Qoder custom agent format: .md with YAML frontmatter
+  # name 使用filename(已是 kebab-case)，tools 根据dir自动推荐
   cat > "$outfile" <<HEREDOC
 ---
 name: ${slug}
@@ -502,7 +508,7 @@ convert_hermes() {
   slug="$(slugify_from_file "$file")"
   body="$(get_body "$file")"
 
-  # 从文件路径提取分类目录名（如 engineering、marketing）
+  # 从filePaths提取categorydirname(如 engineering、marketing)
   category="$(basename "$(dirname "$file")")"
 
   outdir="$OUT_DIR/hermes/$category/$slug"
@@ -535,12 +541,12 @@ convert_kiro() {
 
   mkdir -p "$OUT_DIR/kiro/prompts"
 
-  # 写入 prompt 文件
+  # 写入 prompt file
   cat > "$OUT_DIR/kiro/prompts/${slug}.md" <<HEREDOC
 ${body}
 HEREDOC
 
-  # 写入 JSON 配置文件
+  # 写入 JSON 配置file
   # 需要转义 description 中的双引号
   local escaped_desc
   escaped_desc="$(echo "$description" | sed 's/"/\\"/g')"
@@ -554,29 +560,29 @@ HEREDOC
 HEREDOC
 }
 
-# Aider 和 Windsurf 是单文件格式，先累积再统一写入
+# Aider 和 Windsurf 是单file格式，先累积再统一写入
 AIDER_TMP="$(mktemp)"
 WINDSURF_TMP="$(mktemp)"
 trap 'rm -f "$AIDER_TMP" "$WINDSURF_TMP"' EXIT
 
 cat > "$AIDER_TMP" <<'HEREDOC'
-# AI 智能体专家团队 — Aider 约定文件
+# AI Agent Team — Aider Conventions File
 #
-# 本文件为 Aider 提供完整的 AI 智能体专家阵容。
-# 来源：https://github.com/jnMetaCode/agency-agents-ko
+# This file provides the full AI agent roster for Aider.
+# source：https://github.com/jnMetaCode/agency-agents-ko
 #
-# 激活方式：在 Aider 会话中引用智能体名称，例如：
-#   "使用前端开发者智能体帮我审查这个组件"
+# Activate by referencing an agent name in your Aider session, e.g.:
+#   ""use the frontend-developer agent to review this component""
 #
 # 由 scripts/convert.sh 生成 — 请勿手动编辑。
 
 HEREDOC
 
 cat > "$WINDSURF_TMP" <<'HEREDOC'
-# AI 智能体专家团队 — Windsurf 规则文件
+# AI Agent Team — Windsurf Rules File
 #
-# 完整的 AI 智能体专家阵容。
-# 激活方式：在 Windsurf 对话中引用智能体名称。
+# Full AI agent roster.
+# Activate by referencing an agent name in your Windsurf conversation.
 #
 # 由 scripts/convert.sh 生成 — 请勿手动编辑。
 
@@ -667,17 +673,17 @@ run_conversions() {
 }
 
 
-# --- 入口 ---
+# --- Entry ---
 
 main() {
   local tool="all"
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --tool) tool="${2:?'--tool 需要一个值'}"; shift 2 ;;
-      --out)  OUT_DIR="${2:?'--out 需要一个值'}"; shift 2 ;;
+      --tool) tool="${2:?'--tool requires a value'}"; shift 2 ;;
+      --out)  OUT_DIR="${2:?'--out requires a value'}"; shift 2 ;;
       --help|-h) usage ;;
-      *) error "未知选项: $1"; usage ;;
+      *) error "Unknown option: $1"; usage ;;
     esac
   done
 
@@ -685,13 +691,13 @@ main() {
   local valid=false
   for t in "${valid_tools[@]}"; do [[ "$t" == "$tool" ]] && valid=true && break; done
   if ! $valid; then
-    error "未知工具 '$tool'。可选: ${valid_tools[*]}"
+    error "Unknown tool '$tool'。optional: ${valid_tools[*]}"
     exit 1
   fi
 
-  header "AI 智能体专家团队 -- 转换为工具专用格式"
-  echo "  仓库:   $REPO_ROOT"
-  echo "  输出:   $OUT_DIR"
+  header "AI Agent Team — Convert to tool-specific formats"
+  echo "  Repo:   $REPO_ROOT"
+  echo "  output:   $OUT_DIR"
   echo "  工具:   $tool"
   echo "  日期:   $TODAY"
 
@@ -720,7 +726,7 @@ HEREDOC
       info "已写入 gemini-extension.json"
     fi
 
-    info "已转换 $count 个智能体 ($t)"
+    info "Converted $count agents ($t)"
   done
 
   if [[ "$tool" == "all" || "$tool" == "aider" ]]; then
@@ -735,7 +741,7 @@ HEREDOC
   fi
 
   echo ""
-  info "完成。共转换: $total"
+  info "done。共转换: $total"
 }
 
 main "$@"
