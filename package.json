@@ -1,0 +1,45 @@
+{
+  "name": "agency-agents-ko",
+  "version": "1.0.0",
+  "description": "184 plug-and-play AI agent personas in Korean (한국어) — 상위 agency-agents의 전체 한국어 번역판",
+  "keywords": [
+    "ai-agents",
+    "prompts",
+    "system-prompts",
+    "korean",
+    "한국어",
+    "multi-agent",
+    "agency-agents",
+    "llm",
+    "claude",
+    "roles"
+  ],
+  "author": "jnMetaCode",
+  "license": "MIT",
+  "homepage": "https://github.com/jnMetaCode/agency-agents-ko#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jnMetaCode/agency-agents-ko"
+  },
+  "files": [
+    "academic/",
+    "design/",
+    "engineering/",
+    "finance/",
+    "game-development/",
+    "hr/",
+    "legal/",
+    "marketing/",
+    "paid-media/",
+    "product/",
+    "project-management/",
+    "sales/",
+    "spatial-computing/",
+    "specialized/",
+    "supply-chain/",
+    "support/",
+    "testing/",
+    "README.md",
+    "LICENSE"
+  ]
+}
