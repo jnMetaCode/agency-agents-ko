@@ -1,6 +1,6 @@
 # agency-agents 한국어판 (AI 에이전트 전문가팀)
 
-🌐 **한국어** | [简体中文](https://github.com/jnMetaCode/agency-agents-zh) | [English (upstream)](https://github.com/msitarzewski/agency-agents)
+🌐 **한국어** | [简体中文](https://github.com/jnMetaCode/agency-agents-zh) | [Português (BR)](https://github.com/jnMetaCode/agency-agents-pt-BR) | [Русский](https://github.com/jnMetaCode/agency-agents-ru) | [Bahasa Indonesia](https://github.com/jnMetaCode/agency-agents-id) | [العربية](https://github.com/jnMetaCode/agency-agents-ar) | [English (upstream)](https://github.com/msitarzewski/agency-agents)
 
 > **184 개의 플러그앤플레이 AI 전문가 에이전트** — 엔지니어링, 디자인, 마케팅, 제품, 게임, 보안, 금융 등 18 개 부서를 포괄. 범용 프롬프트 템플릿이 아니라, 모든 에이전트는 독립적인 페르소나·전문 워크플로·산출물 정의를 갖춘다. Claude Code / Cursor / Copilot 등 17 종 AI 코딩 도구를 지원.
 
@@ -243,6 +243,10 @@ cp -r engineering/*.md ~/.claude/agents/
 |----------|----------|------------|
 | **본 프로젝트** (agency-agents-ko) | 🎭 한국어판 에이전트 라이브러리 | 184 개 **즉시 사용 가능한** AI 전문가, 한국 시장 특화 PRs welcome |
 | [agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh) ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=⭐) | 🇨🇳 중국어판 | 215 개 (165 번역 + 50 중국 시장 원본 — 샤오홍슈 / 더우인 / 페이슈 / 딩딩 / Qt HMI / 기계 설계) |
+| [agency-agents-pt-BR](https://github.com/jnMetaCode/agency-agents-pt-BR) | 🇧🇷 포르투갈어판 (브라질) | 184 개 번역된 에이전트 |
+| [agency-agents-ru](https://github.com/jnMetaCode/agency-agents-ru) | 🇷🇺 러시아어판 | 184 개 번역된 에이전트 |
+| [agency-agents-id](https://github.com/jnMetaCode/agency-agents-id) | 🇮🇩 인도네시아어판 | 184 개 번역된 에이전트 |
+| [agency-agents-ar](https://github.com/jnMetaCode/agency-agents-ar) | 🇸🇦 아랍어판 | 184 개 번역된 에이전트 |
 | [agency-agents](https://github.com/msitarzewski/agency-agents) | 🌏 영문 상위 (Upstream) | 184 개 원본 에이전트 — 이 프로젝트의 베이스 |
 | [agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator) | 🚀 오케스트레이션 엔진 | 한 문장 → 184 명 전문가 협업, **몇 분 안에 결과 산출** (9 LLM / 6 무료) |
 
