@@ -9,6 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/jnMetaCode/agency-agents-ko?style=social)](https://github.com/jnMetaCode/agency-agents-ko)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
+[![npm](https://img.shields.io/npm/v/agency-agents-ko?color=cb3837&logo=npm)](https://www.npmjs.com/package/agency-agents-ko)
 
 
 ### 📊 프로젝트 규모
@@ -46,6 +47,18 @@ ao compose "AI Agent 에 대한 심층 분석 글을 작성해 줘" --run
 | 🆓 **6 종 무료 LLM** | Claude Code / Gemini CLI / Copilot / Codex / OpenClaw / Ollama |
 | 💰 **3 종 API 연동** | DeepSeek / Claude API / OpenAI |
 | 📋 **32 개 즉시 사용 가능한 템플릿** | 개발, 마케팅, 데이터 분석, 디자인, 운영 등 |
+
+### 이 라이브러리를 AO 에서 바로 사용
+
+npm 패키지(`agency-agents-ko`)로도 배포된다:
+
+```bash
+npm i agency-agents-ko
+```
+
+워크플로에서 `agents_dir: "agency-agents-ko"` 로 지정하거나, 웹 Studio「Build a Team」페이지의 라이브러리 드롭다운에서 **한국어**를 선택:
+
+<p align="center"><img src="assets/studio-role-lib.png" width="800" alt="AO Studio — 한국어 라이브러리 선택"></p>
 
 <p align="center">
   <a href="https://github.com/jnMetaCode/agency-orchestrator">
