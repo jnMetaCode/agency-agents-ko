@@ -58,6 +58,8 @@ npm i agency-agents-ko
 
 워크플로에서 `agents_dir: "agency-agents-ko"` 로 지정하거나, 웹 Studio「Build a Team」페이지의 라이브러리 드롭다운에서 **한국어**를 선택:
 
+또는 설치 없이 187 개 에이전트를 온라인으로 둘러보기: [**ao.aiolaola.com/experts?lib=ko**](https://ao.aiolaola.com/experts?lib=ko)
+
 <p align="center"><img src="assets/studio-role-lib.png" width="800" alt="AO Studio — 한국어 라이브러리 선택"></p>
 
 <p align="center">
