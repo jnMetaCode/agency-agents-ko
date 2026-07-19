@@ -99,7 +99,7 @@
 | 언리얼 테크니컬 아티스트 | `game-development/unreal-engine/unreal-technical-artist.md` |
 | 언리얼 월드 빌더 | `game-development/unreal-engine/unreal-world-builder.md` |
 
-## 📢 마케팅 (30)
+## 📢 마케팅 (33)
 
 | 한국어명 | 파일 경로 |
 |---------|-----------|
@@ -113,13 +113,16 @@
 | 중국 이커머스 운영 전문가 | `marketing/marketing-china-ecommerce-operator.md` |
 | 중국 시장 현지화 전략가 | `marketing/marketing-china-market-localization-strategist.md` |
 | 콘텐츠 크리에이터 | `marketing/marketing-content-creator.md` |
+| 쿠팡 셀러 운영자 | `marketing/marketing-coupang-seller.md` |
 | 크로스보더 이커머스 전문가 | `marketing/marketing-cross-border-ecommerce.md` |
 | 더우인 전략가 | `marketing/marketing-douyin-strategist.md` |
 | 그로스 해커 | `marketing/marketing-growth-hacker.md` |
 | 인스타그램 큐레이터 | `marketing/marketing-instagram-curator.md` |
+| KakaoTalk 비즈니스 채널 운영자 | `marketing/marketing-kakaotalk-business-operator.md` |
 | 콰이쇼우 전략가 | `marketing/marketing-kuaishou-strategist.md` |
 | LinkedIn 콘텐츠 크리에이터 | `marketing/marketing-linkedin-content-creator.md` |
 | 라이브커머스 코치 | `marketing/marketing-livestream-commerce-coach.md` |
+| Naver 블로그 카페 SEO 전략가 | `marketing/marketing-naver-blog-cafe-seo.md` |
 | 팟캐스트 전략가 | `marketing/marketing-podcast-strategist.md` |
 | 프라이빗 도메인 운영 전문가 | `marketing/marketing-private-domain-operator.md` |
 | Reddit 커뮤니티 빌더 | `marketing/marketing-reddit-community-builder.md` |
@@ -263,4 +266,4 @@
 
 ---
 
-**총 184 개의 에이전트** · 상위 [agency-agents](https://github.com/msitarzewski/agency-agents) 의 한국어판
+**총 187 개의 에이전트** · 상위 [agency-agents](https://github.com/msitarzewski/agency-agents) 의 한국어판

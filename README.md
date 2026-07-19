@@ -2,7 +2,7 @@
 
 🌐 **한국어** | [简体中文](https://github.com/jnMetaCode/agency-agents-zh) | [Português (BR)](https://github.com/jnMetaCode/agency-agents-pt-BR) | [Русский](https://github.com/jnMetaCode/agency-agents-ru) | [Bahasa Indonesia](https://github.com/jnMetaCode/agency-agents-id) | [العربية](https://github.com/jnMetaCode/agency-agents-ar) | [English (upstream)](https://github.com/msitarzewski/agency-agents)
 
-> **184 개의 플러그앤플레이 AI 전문가 에이전트** — 엔지니어링, 디자인, 마케팅, 제품, 게임, 보안, 금융 등 18 개 부서를 포괄. 범용 프롬프트 템플릿이 아니라, 모든 에이전트는 독립적인 페르소나·전문 워크플로·산출물 정의를 갖춘다. Claude Code / Cursor / Copilot 등 17 종 AI 코딩 도구를 지원.
+> **187 개의 플러그앤플레이 AI 전문가 에이전트** — 엔지니어링, 디자인, 마케팅, 제품, 게임, 보안, 금융 등 18 개 부서를 포괄. 범용 프롬프트 템플릿이 아니라, 모든 에이전트는 독립적인 페르소나·전문 워크플로·산출물 정의를 갖춘다. Claude Code / Cursor / Copilot 등 17 종 AI 코딩 도구를 지원.
 
 [agency-agents](https://github.com/msitarzewski/agency-agents) 의 한국어 커뮤니티판. 상위 184 개 에이전트의 전면 번역판이며, LINE / Naver / KakaoTalk / 쿠팡 / 라인 메신저봇 등 한국 시장 특화 에이전트는 **PR 환영**.
 
@@ -15,9 +15,9 @@
 
 | 🤖 AI 에이전트 | 🌏 상위 번역 | 🇰🇷 한국 시장 원본 | 🧠 지원 도구 | 🏢 부서 |
 |:---:|:---:|:---:|:---:|:---:|
-| **184** | **184** | **PRs welcome** | **17 종** | **18 개** |
+| **187** | **184** | **3** | **17 종** | **18 개** |
 
-> 📖 **Companion reading (中文 / Chinese)**: [《AI 编程实战 · 방법론 3 권 시리즈》](https://book.aibuzhiyu.com/) — 10 종 AI 코딩 도구 완전 가이드 + 실전 경험. 본 저장소의 184 개 에이전트를 Claude Code / Cursor / Codex 에 설치한 뒤 방법론과 함께 사용하면 효율이 배가된다. 온라인 도서 + PDF · 영구 무료 · *(중국어로 작성됨)*
+> 📖 **Companion reading (中文 / Chinese)**: [《AI 编程实战 · 방법론 3 권 시리즈》](https://book.aibuzhiyu.com/) — 10 종 AI 코딩 도구 완전 가이드 + 실전 경험. 본 저장소의 187 개 에이전트를 Claude Code / Cursor / Codex 에 설치한 뒤 방법론과 함께 사용하면 효율이 배가된다. 온라인 도서 + PDF · 영구 무료 · *(중국어로 작성됨)*
 
 ---
 
@@ -49,7 +49,7 @@ ao compose "AI Agent 에 대한 심층 분석 글을 작성해 줘" --run
 
 <p align="center">
   <a href="https://github.com/jnMetaCode/agency-orchestrator">
-    <strong>⭐ Agency Orchestrator 살펴보기 — 184 개 에이전트의 협업을 →</strong>
+    <strong>⭐ Agency Orchestrator 살펴보기 — 187 개 에이전트의 협업을 →</strong>
   </a>
 </p>
 
@@ -124,7 +124,7 @@ cp -r engineering/*.md ~/.claude/agents/
 
 ## 에이전트 라인업
 
-전체 184 개 에이전트의 상세 카탈로그는 **[CATALOG.md](CATALOG.md)** 참조. 부서별 요약은 아래와 같다.
+전체 187 개 에이전트의 상세 카탈로그는 **[CATALOG.md](CATALOG.md)** 참조. 부서별 요약은 아래와 같다.
 
 | 부서 | 에이전트 수 | 대표 역할 |
 |------|-------------|-----------|
@@ -241,14 +241,14 @@ cp -r engineering/*.md ~/.claude/agents/
 
 | 프로젝트 | 포지셔닝 | 한 줄 소개 |
 |----------|----------|------------|
-| **본 프로젝트** (agency-agents-ko) | 🎭 한국어판 에이전트 라이브러리 | 184 개 **즉시 사용 가능한** AI 전문가, 한국 시장 특화 PRs welcome |
+| **본 프로젝트** (agency-agents-ko) | 🎭 한국어판 에이전트 라이브러리 | 187 개 **즉시 사용 가능한** AI 전문가, 한국 시장 특화 PRs welcome |
 | [agency-agents-zh](https://github.com/jnMetaCode/agency-agents-zh) ![](https://img.shields.io/github/stars/jnMetaCode/agency-agents-zh?style=flat&label=⭐) | 🇨🇳 중국어판 | 215 개 (165 번역 + 50 중국 시장 원본 — 샤오홍슈 / 더우인 / 페이슈 / 딩딩 / Qt HMI / 기계 설계) |
-| [agency-agents-pt-BR](https://github.com/jnMetaCode/agency-agents-pt-BR) | 🇧🇷 포르투갈어판 (브라질) | 184 개 번역된 에이전트 |
-| [agency-agents-ru](https://github.com/jnMetaCode/agency-agents-ru) | 🇷🇺 러시아어판 | 184 개 번역된 에이전트 |
-| [agency-agents-id](https://github.com/jnMetaCode/agency-agents-id) | 🇮🇩 인도네시아어판 | 184 개 번역된 에이전트 |
-| [agency-agents-ar](https://github.com/jnMetaCode/agency-agents-ar) | 🇸🇦 아랍어판 | 184 개 번역된 에이전트 |
+| [agency-agents-pt-BR](https://github.com/jnMetaCode/agency-agents-pt-BR) | 🇧🇷 포르투갈어판 (브라질) | 187 개 번역된 에이전트 |
+| [agency-agents-ru](https://github.com/jnMetaCode/agency-agents-ru) | 🇷🇺 러시아어판 | 187 개 번역된 에이전트 |
+| [agency-agents-id](https://github.com/jnMetaCode/agency-agents-id) | 🇮🇩 인도네시아어판 | 187 개 번역된 에이전트 |
+| [agency-agents-ar](https://github.com/jnMetaCode/agency-agents-ar) | 🇸🇦 아랍어판 | 187 개 번역된 에이전트 |
 | [agency-agents](https://github.com/msitarzewski/agency-agents) | 🌏 영문 상위 (Upstream) | 184 개 원본 에이전트 — 이 프로젝트의 베이스 |
-| [agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator) | 🚀 오케스트레이션 엔진 | 한 문장 → 184 명 전문가 협업, **몇 분 안에 결과 산출** (9 LLM / 6 무료) |
+| [agency-orchestrator](https://github.com/jnMetaCode/agency-orchestrator) | 🚀 오케스트레이션 엔진 | 한 문장 → 187 명 전문가 협업, **몇 분 안에 결과 산출** (9 LLM / 6 무료) |
 
 ---
 
@@ -268,7 +268,7 @@ MIT License — 상업적 / 개인적 용도 모두 자유롭게 사용 가능.
 
 <div align="center">
 
-**184 개 AI 전문가 에이전트, 17 종 도구 지원, 즉시 설치 사용**
+**187 개 AI 전문가 에이전트, 17 종 도구 지원, 즉시 설치 사용**
 
 [⭐ Star 본 프로젝트](https://github.com/jnMetaCode/agency-agents-ko) · [Issue 제출](https://github.com/jnMetaCode/agency-agents-ko/issues) · [코드 기여](https://github.com/jnMetaCode/agency-agents-ko/pulls)
 

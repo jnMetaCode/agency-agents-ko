@@ -1,7 +1,7 @@
 {
   "name": "agency-agents-ko",
   "version": "1.0.0",
-  "description": "184 plug-and-play AI agent personas in Korean (한국어) — 상위 agency-agents의 전체 한국어 번역판",
+  "description": "187 plug-and-play AI agent personas in Korean (한국어) — 상위 agency-agents의 전체 한국어 번역판",
   "keywords": [
     "ai-agents",
     "prompts",
@@ -40,6 +40,10 @@
     "support/",
     "testing/",
     "README.md",
-    "LICENSE"
-  ]
+    "LICENSE",
+    "CATALOG.md"
+  ],
+  "scripts": {
+    "check:counts": "node scripts/check-counts.mjs"
+  }
 }
