@@ -11,6 +11,8 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![npm](https://img.shields.io/npm/v/agency-agents-ko?color=cb3837&logo=npm)](https://www.npmjs.com/package/agency-agents-ko)
 
+> 📖 **무료 코스** → [AI 코딩 배우기](https://aiolaola.com/ko?utm_source=github&utm_campaign=agents-ko)(180강) + [AI 에이전트 만들기](https://aiolaola.com/ko/course/agents?utm_source=github&utm_campaign=agents-ko)(40강) — 한국어 실습 코스, 무료
+
 
 ### 📊 프로젝트 규모
 
